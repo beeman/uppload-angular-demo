@@ -1,15 +1,7 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
-
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Uppload from 'uppload';
 
-export class UpploadSettings {
-  value: string;
-  bind: string[];
-  call: string[];
-  endpoint: string;
-  maxFileSize: number;
-  allowedTypes: 'image';
-}
+import { UPPLOAD_EVENTS, UpploadSettings } from './uppload.settings';
 
 @Component({
   selector: 'uppload',
@@ -19,19 +11,39 @@ export class UpploadSettings {
 })
 export class UpploadComponent implements OnInit {
   @Input() public settings: UpploadSettings;
-  @Input() public onUpload = new EventEmitter();
+  @Output() public event = new EventEmitter();
 
   private uppload: Uppload;
 
-  openModal() {
-    this.uppload.openModal();
+  ngOnInit() {
+    // Initialize new instance
+    this.uppload = new Uppload(this.settings);
+
+    // Hook all events up to the `event` output
+    UPPLOAD_EVENTS.forEach(event => {
+      this.uppload.on(event, (payload) => this.event.emit({ event, payload }));
+    });
   }
 
-  ngOnInit() {
-    this.uppload = new Uppload(this.settings);
-    this.uppload.on('fileUploaded', url => {
-      this.onUpload.emit(url);
-    });
+  // Expose public methods
+  public changePage(param) {
+    return this.uppload.changePage(param);
+  }
+
+  public closeModal() {
+    return this.uppload.closeModal();
+  }
+
+  public openModal() {
+    return this.uppload.openModal();
+  }
+
+  public updateValue(param) {
+    return this.uppload.updateValue(param);
+  }
+
+  public uploadFile(param): Promise<any> {
+    return this.uppload.uploadFile(param);
   }
 
 }
