@@ -3,11 +3,12 @@ export class UpploadEndpoint {
   method?: string;
   headers?: any;
 }
+export type UpploadCropSize = [ number, number, string ];
 
 export class UpploadCrop {
   aspectRatio?: number;
-  maxSize?: any;
-  minSize?: any;
+  maxSize?: UpploadCropSize;
+  minSize?: UpploadCropSize;
 }
 
 export class UpploadBlob {
@@ -34,20 +35,20 @@ export class UpploadSettings {
   crop?: UpploadCrop;
 }
 
-export const UPPLOAD_EVENTS = [
-  'cropEnd',
-  'cropMove',
-  'cropStart',
-  'dragEnter',
-  'dragLeave',
-  'dragOver',
-  'fileDropped',
-  'fileError',
-  'fileSelected',
-  'fileUploaded',
-  'modalClosed',
-  'modalOpened',
-  'pageChanged',
-  'uploadError',
-  'uploadStarted',
-];
+export class UpploadEvents {
+  static cropEnd = 'cropEnd';
+  static cropMove = 'cropMove';
+  static cropStart = 'cropStart';
+  static dragEnter = 'dragEnter';
+  static dragLeave = 'dragLeave';
+  static dragOver = 'dragOver';
+  static fileDropped = 'fileDropped';
+  static fileError = 'fileError';
+  static fileSelected = 'fileSelected';
+  static fileUploaded = 'fileUploaded';
+  static modalClosed = 'modalClosed';
+  static modalOpened = 'modalOpened';
+  static pageChanged = 'pageChanged';
+  static uploadError = 'uploadError';
+  static uploadStarted = 'uploadStarted';
+}

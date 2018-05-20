@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Uppload from 'uppload';
 
-import { UPPLOAD_EVENTS, UpploadSettings } from './uppload.settings';
+import { UpploadEvents, UpploadSettings } from './uppload.settings';
 
 @Component({
   selector: 'uppload',
@@ -20,7 +20,7 @@ export class UpploadComponent implements OnInit {
     this.uppload = new Uppload(this.settings);
 
     // Hook all events up to the `event` output
-    UPPLOAD_EVENTS.forEach(event => {
+    Object.keys(UpploadEvents).forEach(event => {
       this.uppload.on(event, (payload) => this.event.emit({ event, payload }));
     });
   }
